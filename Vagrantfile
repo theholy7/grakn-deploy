@@ -10,4 +10,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.name = "grakn"
   end
 
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "provisioning/playbook.yml"
+  end
+  
 end
