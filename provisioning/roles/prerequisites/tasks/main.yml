@@ -12,7 +12,3 @@
 - name: upgrade apt packages
   become: true
   apt: upgrade=yes
-
-- name: Install Java
-  become: true
-  apt: name=openjdk-8-jre state=latest

@@ -1,0 +1,13 @@
+---
+- name: Install prerequisites
+  apt: name={{ item }} state=latest
+  become: true
+  with_items:
+    - openjdk-8-jre
+    - unzip
+
+- name: Download and unzip GRAKN
+  unarchive:
+    src: https://grakn.ai/download/latest
+    dest: ~/
+    remote_src: true
