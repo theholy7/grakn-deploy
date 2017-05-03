@@ -6,8 +6,25 @@
     - openjdk-8-jre
     - unzip
 
+- name: Has GRAKN been downloaded?
+  stat: path=~/grakn
+  register: grakn_path_exists
+
 - name: Download and unzip GRAKN
   unarchive:
     src: https://grakn.ai/download/latest
     dest: ~/
     remote_src: true
+  when: not grakn_path_exists.stat.isdir
+
+- name: Find GRAKN folder name
+  find:
+    paths: ~/
+    pattern: grakn*
+    file_type: directory
+  register: grakn_path
+  when: not grakn_path_exists.stat.isdir
+
+- name: Rename GRANK folder
+  command: "mv {{ grakn_path.files.0.path }} grakn"
+  when: not grakn_path_exists.stat.isdir
