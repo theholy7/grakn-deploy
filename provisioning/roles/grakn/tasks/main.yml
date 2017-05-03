@@ -6,6 +6,23 @@
     - openjdk-8-jre
     - unzip
 
+- name: Identify JAVA_HOME
+  shell: >
+    update-alternatives --query java | grep 'Value: ' | grep -o '/.*/jre'
+  register: java_home
+
+- name: Add JAVA_HOME to environment variables
+  lineinfile:
+    path: /etc/environment
+    line: "export JAVA_HOME={{ java_home.stdout }}"
+    insertafter: EOF
+    state: present
+  become: true
+
+- name: Source environment variables file
+  shell: . /etc/environment
+  become: true
+
 - name: Has GRAKN been downloaded?
   stat: path=~/grakn
   register: grakn_path_exists
