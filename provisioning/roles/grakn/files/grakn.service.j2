@@ -1,0 +1,10 @@
+[Unit]
+Description=GRAKN Service
+
+[Service]
+Type=forking
+ExecStart={{ ansible_env.HOME }}/grakn/bin/grakn.sh start
+ExecStop={{ ansible_env.HOME }}/grakn/bin/grakn.sh stop
+
+[Install]
+WantedBy=multi-user.target

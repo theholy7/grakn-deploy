@@ -32,7 +32,7 @@
     src: https://grakn.ai/download/latest
     dest: ~/
     remote_src: true
-  when: not grakn_path_exists.stat.isdir
+  when: not grakn_path_exists.stat.exists
 
 - name: Find GRAKN folder name
   find:
@@ -40,8 +40,26 @@
     pattern: grakn*
     file_type: directory
   register: grakn_path
-  when: not grakn_path_exists.stat.isdir
+  when: not grakn_path_exists.stat.exists
 
 - name: Rename GRANK folder
   command: "mv {{ grakn_path.files.0.path }} grakn"
-  when: not grakn_path_exists.stat.isdir
+  when: not grakn_path_exists.stat.exists
+
+- name: Create grank service init file
+  template:
+    src: ../files/grakn.service.j2
+    dest: /etc/systemd/system/grakn.service
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+
+- name: Enable and start GRAKN service
+  systemd:
+    name: grakn.service
+    daemon_reload: yes
+    enabled: yes
+    state: started
+    masked: no
+  become: true
