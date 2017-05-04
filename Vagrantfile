@@ -7,8 +7,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "forwarded_port", guest: 4567, host: 4567
 
   config.vm.provider "virtualbox" do |vb|
-    vb.memory = "2048"
-    vb.cpus = 1
+    vb.memory = "4096"
+    vb.cpus = 2
     vb.name = "grakn"
   end
 

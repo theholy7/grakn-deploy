@@ -42,11 +42,11 @@
   register: grakn_path
   when: not grakn_path_exists.stat.exists
 
-- name: Rename GRANK folder
+- name: Rename GRAKN folder
   command: "mv {{ grakn_path.files.0.path }} grakn"
   when: not grakn_path_exists.stat.exists
 
-- name: Create grank service init file
+- name: Create grakn service init file
   template:
     src: ../files/grakn.service.j2
     dest: /etc/systemd/system/grakn.service
